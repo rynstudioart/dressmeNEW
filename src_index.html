@@ -1,0 +1,3932 @@
+<!doctype html>
+<html lang="en">
+ <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260723-05-e9a76f4"}');</script><script src="/_sdk/e358eac22bd01364.telemetry_sdk.js" integrity="sha512-KPxp3rw4K8Nu9ceWJc3gyM7srgaZxiFWOVbyu260EYzzAqdz10mfo5xyXrCx+wEKtGo77JbtmwXvFLbwrGzwvw=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dress Me</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <style>
+.category-btn.active > div{
+    border:0.5px solid #000;
+}
+
+.category-btn.active img{
+    transform:scale(1.08);
+}
+        body { font-family: 'DM Sans', sans-serif; }
+        .tab-active { border-bottom: 3px solid #1e293b; font-weight: 700; }
+        .item-selected { ring: 3px; outline: 3px solid #f59e0b; outline-offset: 2px; }
+    </style>
+  <script src="/_sdk/6030e540d4419216.resizing_sdk.js" type="text/javascript" integrity="sha512-b5KWzyoXsbWP4smq4sftIi6Kts4YVBpBsz0BwCViwbBJkK64a3/Z6ZMdWA+qnplNcXw4mhZeqvQi3mOosiRJdA=="></script>
+ </head>
+ <body data-template-id="__page-root" class="w-full min-h-screen">
+  <div id="loading-popup"
+     style="
+        display:none;
+        position:fixed;
+        top:0;
+        left:0;
+        width:100vw;
+        height:100vh;
+        background:rgba(0,0,0,0.55);
+        z-index:999999;
+        justify-content:center;
+        align-items:center;">
+
+    <div style="
+        background:#fff;
+        padding:30px;
+        border-radius:16px;
+        text-align:center;
+        min-width:260px;
+        box-shadow:0 10px 30px rgba(0,0,0,.25);">
+
+        <div style="
+            width:48px;
+            height:48px;
+            margin:0 auto 20px;
+            border:5px solid #e5e7eb;
+            border-top:5px solid #111827;
+            border-radius:50%;
+            animation:spin 1s linear infinite;">
+        </div>
+
+        <h3 style="margin:0;font-size:20px;font-weight:bold;">
+            Generating outfit...
+        </h3>
+
+        <p style="margin-top:8px;color:#666;">
+            Please wait...
+        </p>
+
+    </div>
+
+</div>
+
+<style>
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+</style>
+  <header class="p-5 border-b border-gray-200">
+   <h1 class="text-center font-bold text-2xl">
+    Dress Me
+</h1>
+  </header>
+  <nav class="flex justify-center gap-8 pt-4 border-b border-gray-100">
+   <button
+    id="tab-wardrobe"
+    class="pb-3 px-2 tab-active"
+    onclick="switchTab('wardrobe')">
+    Wardrobe
+</button>
+
+<button
+    id="tab-outfits"
+    class="pb-3 px-2"
+    onclick="switchTab('outfits')">
+    Outfits
+</button>
+   <button
+    id="tab-calendar"
+    class="pb-3 px-2"
+    onclick="switchTab('calendar')">
+
+    Calendar
+
+</button>
+  </nav>
+  <main class="max-w-4xl mx-auto p-4">
+  <!-- WARDROBE VIEW -->
+<section id="view-wardrobe">
+
+    <!-- CATEGORY BAR -->
+
+    <div
+        id="category-bar"
+        class="flex gap-5 overflow-x-auto no-scrollbar py-3">
+
+        <!-- ADD -->
+
+        <button
+            onclick="toggleAddForm()"
+            class="flex-shrink-0 flex flex-col items-center">
+
+            <div class="w-16 h-16 rounded-full border border-gray-300 bg-white flex items-center justify-center">
+
+                <span class="text-3xl font-light">+</span>
+
+            </div>
+
+            <span class="text-xs text-gray-500 mt-2">
+                Add
+            </span>
+
+        </button>
+
+        <!-- ALL -->
+
+        <button
+            onclick="setCategory('all')"
+
+    data-category="all"
+
+    class="category-btn flex-shrink-0 flex flex-col items-center">
+
+            <div class="w-16 h-16 rounded-full border border-gray-300 bg-white flex items-center justify-center">
+
+                <img
+                    src="all.PNG"
+                    class="w-8 h-8 object-contain">
+
+            </div>
+
+            <span class="text-xs text-gray-500 mt-2">
+                All
+            </span>
+
+        </button>
+
+        <!-- TOPS -->
+    
+
+        <button
+            onclick="setCategory('tops')"
+
+    data-category="tops"
+
+    class="category-btn flex-shrink-0 flex flex-col items-center">
+
+            <div class="w-16 h-16 rounded-full border border-gray-300 bg-white flex items-center justify-center">
+
+                <img
+                    src="tops.PNG"
+                    class="w-8 h-8 object-contain">
+
+            </div>
+
+            <span class="text-xs text-gray-500 mt-2">
+                Tops
+            </span>
+
+        </button>
+
+        <!-- BOTTOMS -->
+
+        <button
+onclick="setCategory('bottoms')"
+
+    data-category="bottoms"
+
+    class="category-btn flex-shrink-0 flex flex-col items-center">
+
+            <div class="w-16 h-16 rounded-full border border-gray-300 bg-white flex items-center justify-center">
+
+                <img
+                    src="bottoms.PNG"
+                    class="w-8 h-8 object-contain">
+
+            </div>
+
+            <span class="text-xs text-gray-500 mt-2">
+                Bottoms
+            </span>
+
+        </button>
+
+        <!-- DRESS -->
+
+        <button
+         onclick="setCategory('dress')"
+
+    data-category="dress"
+
+    class="category-btn flex-shrink-0 flex flex-col items-center">
+
+            <div class="w-16 h-16 rounded-full border border-gray-300 bg-white flex items-center justify-center">
+
+                <img
+                    src="dress.PNG"
+                    class="w-8 h-8 object-contain">
+
+            </div>
+
+            <span class="text-xs text-gray-500 mt-2">
+                Dress/Jumpsuit
+            </span>
+
+        </button>
+
+        <!-- SHOES -->
+
+        <button
+            onclick="setCategory('shoes')"
+
+    data-category="shoes"
+
+    class="category-btn flex-shrink-0 flex flex-col items-center">
+
+            <div class="w-16 h-16 rounded-full border border-gray-300 bg-white flex items-center justify-center">
+
+                <img
+                    src="shoes.PNG"
+                    class="w-8 h-8 object-contain">
+
+            </div>
+
+            <span class="text-xs text-gray-500 mt-2">
+                Shoes
+            </span>
+
+        </button>
+
+        <!-- ACCESSORIES -->
+
+        <button
+    onclick="setCategory('accessories')"
+
+    data-category="accessories"
+
+    class="category-btn flex-shrink-0 flex flex-col items-center">
+
+            <div class="w-16 h-16 rounded-full border border-gray-300 bg-white flex items-center justify-center">
+
+                <img
+                    src="accessories .PNG"
+                    class="w-8 h-8 object-contain">
+
+            </div>
+
+            <span class="text-xs text-gray-500 mt-2">
+                Accessories
+            </span>
+
+        </button>
+
+        <!-- OUTERWEAR -->
+
+        <button 
+         onclick="setCategory('outerwear')"
+
+    data-category="outerwear"
+
+    class="category-btn flex-shrink-0 flex flex-col items-center">
+
+            <div class="w-16 h-16 rounded-full border border-gray-300 bg-white flex items-center justify-center">
+
+                <img
+                    src="outerwear.PNG"
+                    class="w-8 h-8 object-contain">
+
+            </div>
+
+            <span class="text-xs text-gray-500 mt-2">
+                Outerwear
+            </span>
+
+        </button>
+
+    </div>
+
+    <!-- FILTER BAR -->
+
+    <div class="flex items-center gap-2 mt-4">
+
+        <select
+            id="season-filter"
+            onchange="renderWardrobe()"
+            class="flex-1 border rounded-full px-4 py-2">
+
+            <option value="all">All Seasons</option>
+            <option value="spring">Spring</option>
+            <option value="summer">Summer</option>
+            <option value="autumn">Autumn</option>
+            <option value="winter">Winter</option>
+
+        </select>
+
+       <button
+    onclick="setCategory('favorites')"
+    class="w-11 h-11 rounded-full border flex items-center justify-center">
+
+    ✮
+
+</button>
+          
+      
+
+        <button
+            onclick="clearDatabase()"
+            class="w-11 h-11 rounded-full border flex items-center justify-center"><img src="delete.PNG" class="w-5 h-5 object-contain">
+
+        </button>
+
+        <button
+            onclick="exportWardrobeJSON()"
+            class="w-11 h-11 rounded-full border flex items-center justify-center">
+         <img src="export.PNG" class="w-5 h-5 object-contain">
+         
+        </button>
+
+        <button
+            onclick="document.getElementById('import-json').click()"
+            class="w-11 h-11 rounded-full border flex items-center justify-center">
+         <img src="import.PNG" class="w-5 h-5 object-contain">
+
+        </button>
+
+    </div>
+
+    <input
+        id="import-json"
+        type="file"
+        accept=".json"
+        hidden
+        onchange="importWardrobeJSON(event)">
+    <form
+        id="add-form"
+        class="hidden bg-gray-50 rounded-xl p-4 mb-4 space-y-3"
+        onsubmit="addItem(event)">
+
+    
+
+        <label
+            for="item-cat"
+            class="text-sm font-medium">
+
+            Category
+
+        </label>
+
+        <select
+            id="item-cat"
+            required
+            class="w-full border rounded-lg px-3 py-2 text-sm">
+
+            <option value="tops">Tops</option>
+            <option value="bottoms">Bottoms</option>
+            <option value="dress">Dress</option>
+            <option value="shoes">Shoes</option>
+            <option value="accessories">Accessories</option>
+            <option value="outerwear">Outerwear</option>
+
+        </select>
+
+        <!-- NEW -->
+
+        <label
+            for="item-season"
+            class="text-sm font-medium">
+
+            Season
+
+        </label>
+
+        <select
+            id="item-season"
+            class="w-full border rounded-lg px-3 py-2 text-sm">
+
+            <option value="all">All Outfits</option>
+<option value="spring">Spring</option>
+<option value="summer">Summer</option>
+<option value="autumn">Autumn</option>
+<option value="winter">Winter</option>
+
+        </select>
+
+        <!-- END NEW -->
+
+        <label
+            for="item-files"
+            class="text-sm font-medium">
+
+            Upload Photos
+
+        </label>
+
+        <input
+            id="item-files"
+            type="file"
+            accept="image/*"
+            multiple
+            class="w-full border rounded-lg px-3 py-2 text-sm">
+
+        <div class="flex gap-2">
+
+            <button
+                type="submit"
+                class="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm">
+
+                Save
+
+            </button>
+
+            <button
+                type="button"
+                onclick="toggleAddForm()"
+                class="px-4 py-2 rounded-lg text-sm border">
+
+                Cancel
+
+            </button>
+
+        </div>
+
+    </form>
+
+    <div
+    id="wardrobe-grid"
+    class="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+</div>
+
+    <p
+        id="wardrobe-empty"
+        data-template-id="wardrobe-empty"
+        class="canva-text text-center py-12 text-gray-400 hidden">
+    </p>
+
+</section>
+
+<!-- OUTFITS VIEW -->
+<section id="view-outfits" class="hidden">
+
+    <!-- ACTION BUTTONS -->
+    <div class="grid grid-cols-4 gap-4 my-4 place-items-center">
+
+        <!-- Upload -->
+        <div class="flex flex-col items-center">
+
+            <button
+                onclick="toggleOutfitUploadForm()"
+                class="w-12 h-12 rounded-full border border-gray-300 bg-white flex items-center justify-center hover:bg-gray-100 transition">
+
+    <i data-lucide="plus"
+   class="w-5 h-5 text-black"
+   stroke-width="2.5"></i>
+
+            </button>
+
+            <span class="text-[11px] mt-2 text-gray-700">
+                Upload
+            </span>
+
+        </div>
+
+        <!-- Check -->
+        <div class="flex flex-col items-center">
+
+         <button
+    id="check-btn"
+    onclick="showCombinationChecker()"
+    class="w-12 h-12 rounded-full border border-gray-300 bg-white flex items-center justify-center hover:bg-gray-100 transition">
+
+    <i data-lucide="check-circle" class="w-5 h-5 text-black"></i>
+
+</button>
+
+            <span class="text-[11px] mt-2 text-gray-700">
+                Check
+            </span>
+
+        </div>
+
+        <!-- AI -->
+        <div class="flex flex-col items-center">
+
+            <button
+                onclick="showPromptPopup()"
+                class="w-12 h-12 rounded-full border border-gray-300 bg-white flex items-center justify-center hover:bg-gray-100 transition">
+
+                <i data-lucide="bot" class="w-5 h-5 text-black"></i>
+
+            </button>
+
+            <span class="text-[11px] mt-2 text-gray-700">
+                AI
+            </span>
+
+        </div>
+
+        <!-- Generate -->
+        <div class="flex flex-col items-center">
+
+            <button
+                onclick="startOutfitCreation()"
+                class="w-12 h-12 rounded-full border border-gray-300 bg-white flex items-center justify-center hover:bg-gray-100 transition">
+
+                <i data-lucide="shirt" class="w-5 h-5 text-black"></i>
+
+            </button>
+
+            <span class="text-[11px] mt-2 text-gray-700">
+                Generate
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- FORMULAR UPLOAD OUTFIT -->
+
+    <form
+        id="outfit-upload-form"
+        class="hidden bg-gray-50 rounded-xl p-4 mb-4 space-y-3">
+
+
+
+
+<label class="text-sm font-medium">
+    Category
+</label>
+
+
+<select
+    id="outfit-season"
+    class="w-full border rounded-lg px-3 py-2 text-sm">
+
+    <option value="summer">
+        Summer
+    </option>
+
+    <option value="spring">
+        Spring
+    </option>
+
+    <option value="autumn">
+        Autumn
+    </option>
+
+    <option value="winter">
+        Winter
+    </option>
+
+</select>
+
+ 
+
+<label class="text-sm font-medium">
+    Upload Photo
+</label>
+
+
+<input
+    id="outfit-files"
+    type="file"
+    accept="image/*"
+    multiple
+    class="w-full border rounded-lg px-3 py-2 text-sm">
+
+
+<div class="flex gap-2">
+
+    <button
+        type="button"
+        onclick="saveUploadedOutfit()"
+        class="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm">
+
+        Save
+
+    </button>
+
+
+    <button
+        type="button"
+        onclick="toggleOutfitUploadForm()"
+        class="px-4 py-2 rounded-lg text-sm border">
+
+        Cancel
+
+    </button>
+
+</div>
+
+
+</form>
+<!-- OUTFIT CREATOR -->
+
+    <div
+        id="outfit-creator"
+        class="hidden bg-amber-50 rounded-xl p-4 mb-4 space-y-3">
+
+        <label
+            for="outfit-name"
+            class="text-sm font-medium">
+            Outfit Name
+        </label>
+
+        <input
+            id="outfit-name"
+            type="text"
+            readonly
+            class="w-full border rounded-lg px-3 py-2 text-sm bg-white"
+            placeholder="Select items to generate a name">
+
+        <p class="text-xs text-gray-500">
+            Tap items below to select:
+        </p>
+     <label class="text-sm font-medium">
+
+Generate From
+
+</label>
+
+<select
+id="generate-filter"
+onchange="renderPicker()"
+class="w-full border rounded-lg px-3 py-2 text-sm">
+
+    <option value="all">
+        All Items
+    </option>
+
+    <option value="favorites">
+        Favorites
+    </option>
+
+    <option value="spring">
+        Spring
+    </option>
+
+    <option value="summer">
+        Summer
+    </option>
+
+    <option value="autumn">
+        Autumn
+    </option>
+
+    <option value="winter">
+        Winter
+    </option>
+
+</select>
+
+        <div
+            id="outfit-picker"
+            class="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-60 overflow-y-auto">
+        </div>
+
+        <div class="flex gap-2 flex-wrap">
+
+            
+
+            <button
+                onclick="cancelOutfit()"
+                class="px-4 py-2 rounded-lg text-sm border">
+                Cancel
+            </button>
+
+            <button
+                id="generate-button"
+                onclick="generateOutfit()"
+                class="w-full bg-[#8E8E8E] hover:bg-[#7d7d7d] transition-colors text-white px-5 py-4 rounded-xl text-base font-semibold flex items-center justify-center gap-3">
+
+                ✨ Generate Outfit
+
+            </button>
+
+        </div>
+
+    </div>
+
+<!-- GENERATED COMBINATION -->
+
+ <div
+id="combination-popup"
+style="
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+z-index:999999;
+justify-content:center;
+align-items:center;">
+
+<div
+style="
+background:white;
+width:95%;
+max-width:700px;
+border-radius:16px;
+padding:20px;">
+
+<h2 style="font-size:22px;font-weight:bold;margin-bottom:15px;">
+All combinations
+</h2>
+<div style="display:flex;gap:10px;margin-bottom:15px;">
+
+<button
+onclick="downloadMissingCombinations()"
+class="bg-gray-900 text-white px-4 py-2 rounded-lg">
+
+⬇️ Download Missing Combinations
+
+</button>
+
+</div>
+<div
+id="combination-list"
+style="
+max-height:65vh;
+overflow:auto;">
+</div>
+
+<button
+onclick="closeCombinationPopup()"
+style="
+margin-top:20px;
+padding:10px 18px;
+border:1px solid #ddd;
+border-radius:10px;">
+
+Close
+
+</button>
+
+</div>
+
+</div>
+    
+    <!-- GENERATED OUTFIT -->
+<div
+    id="generated-outfit"
+    style="
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.65);
+        z-index:999999;
+        justify-content:center;
+        align-items:center;">
+
+    <div style="
+        background:#fff;
+        width:90%;
+        max-width:700px;
+        border-radius:16px;
+        overflow:hidden;
+        text-align:center;
+        position:relative;">
+
+        <button
+            onclick="document.getElementById('generated-outfit').style.display='none'"
+            style="
+                position:absolute;
+                top:12px;
+                right:12px;
+                width:36px;
+                height:36px;
+                border:none;
+                border-radius:50%;
+                background:#eee;
+                cursor:pointer;
+                font-size:20px;">
+            ✕
+        </button>
+
+        <h2 style="padding:20px;font-size:22px;font-weight:bold;">
+            Generated Outfit
+        </h2>
+
+        <img
+            id="generated-image"
+            src=""
+            style="
+                width:100%;
+                max-height:70vh;
+                object-fit:contain;
+                background:#f5f5f5;">
+
+        <div style="padding:20px;">
+            <p id="generated-name" style="font-weight:bold;font-size:18px;"></p>
+        </div>
+
+    </div>
+
+</div>
+<!-- AI PROMPTS -->
+<div
+id="prompt-popup"
+style="
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+z-index:999999;
+justify-content:center;
+align-items:center;">
+
+    <div
+    style="
+    background:white;
+    width:95%;
+    max-width:850px;
+    padding:24px;
+    border-radius:16px;">
+
+        <h2
+        style="
+        font-size:22px;
+        font-weight:bold;
+        margin-bottom:20px;">
+
+            AI Prompts
+
+        </h2>
+
+        <div
+        class="grid grid-cols-2 gap-3">
+
+            <button
+            onclick="copyItemPrompt()"
+            class="bg-gray-900 text-white px-4 py-3 rounded-lg flex items-center justify-center gap-2">
+
+                <i data-lucide="copy" style="width:20px;height:20px"></i>
+
+                Copy Item Prompt
+
+            </button>
+
+            <button
+            onclick="copyOutfitPrompt()"
+            class="bg-gray-900 text-white px-4 py-3 rounded-lg flex items-center justify-center gap-2">
+
+                <i data-lucide="copy" style="width:20px;height:20px"></i>
+
+                Copy Outfit Prompt
+
+            </button>
+
+        </div>
+
+        <textarea
+        id="item-prompt"
+        readonly
+        style="
+        margin-top:20px;
+        width:100%;
+        height:420px;
+        padding:12px;
+        border:1px solid #ddd;
+        border-radius:10px;
+        font-size:13px;"></textarea>
+
+        <button
+        onclick="closePromptPopup()"
+        class="mt-4 px-4 py-2 rounded-lg border w-full">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- SAVED OUTFITS -->
+
+<label class="text-sm font-medium mt-6 block">
+
+Season
+
+</label>
+
+<div class="flex items-center gap-2 mt-2">
+
+    <select
+        id="outfit-filter"
+        onchange="renderOutfitCollection()"
+        class="flex-1 border border-black/20 rounded-full px-4 py-2 text-sm bg-white">
+
+        <option value="all">
+            All Outfits
+        </option>
+
+        <option value="spring">
+            Spring
+        </option>
+
+        <option value="summer" selected>
+            Summer
+        </option>
+
+        <option value="autumn">
+            Autumn
+        </option>
+
+        <option value="winter">
+            Winter
+        </option>
+
+    </select>
+
+    <button
+        id="favorite-filter-btn"
+        onclick="toggleFavoriteFilter()"
+        class="w-11 h-11 rounded-full border border-black/20 bg-transparent hover:bg-gray-100 transition flex items-center justify-center">
+
+      ★
+
+    </button>
+
+</div>
+
+
+
+<div
+    id="outfits-grid"
+    class="flex gap-1 overflow-x-auto overflow-y-hidden pb-2 no-scrollbar">
+</div>
+    
+    
+   
+
+
+
+</section>
+   <!-- CALENDAR VIEW -->
+<section id="view-calendar" class="hidden">
+
+    <!-- HEADER -->
+    <div class="text-center mb-3">
+
+        <select
+            id="calendar-year"
+            onchange="changeCalendarYear()"
+            class="text-lg font-semibold bg-transparent outline-none cursor-pointer text-center">
+        </select>
+
+    </div>
+
+    <div class="flex items-center justify-center gap-5 mb-5">
+
+        <button
+            onclick="previousMonth()"
+            class="text-3xl px-3 hover:text-gray-700">
+
+            ‹
+
+        </button>
+
+        <h1
+            id="calendar-month"
+            class="text-3xl font-bold">
+        </h1>
+
+        <button
+            onclick="nextMonth()"
+            class="text-3xl px-3 hover:text-gray-700">
+
+            ›
+
+        </button>
+
+    </div>
+
+    <!-- WEEK DAYS -->
+
+    <div class="grid grid-cols-7 text-center text-xs font-semibold text-gray-500 mb-2">
+
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
+        <div>Sun</div>
+
+    </div>
+
+    <!-- GRID -->
+
+    <div
+        id="calendar-grid"
+        class="grid grid-cols-7 gap-1">
+
+    </div>
+
+</section>
+
+   
+  </main>
+  <!-- Edit Items popup -->
+<div
+id="edit-popup"
+style="
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+z-index:999999;
+justify-content:center;
+align-items:center;">
+
+    <div
+    style="
+    background:white;
+    padding:25px;
+    border-radius:16px;
+    width:340px;">
+
+        <h2
+        style="
+        font-size:20px;
+        font-weight:bold;
+        margin-bottom:15px;">
+
+            Edit Item
+
+        </h2>
+
+        <label
+        class="text-sm font-medium">
+
+            Name
+
+        </label>
+
+        <input
+        id="edit-name"
+        class="w-full border rounded-lg p-2 mb-3">
+
+        <label
+        class="text-sm font-medium">
+
+            Category
+
+        </label>
+
+        <select
+        id="edit-category"
+        class="w-full border rounded-lg p-2 mb-4">
+
+            <option value="tops">
+                Tops
+            </option>
+
+            <option value="bottoms">
+                Bottoms
+            </option>
+
+            <option value="dress">
+                Dress
+            </option>
+
+            <option value="shoes">
+                Shoes
+            </option>
+
+            <option value="accessories">
+                Accessories
+            </option>
+
+            <option value="outerwear">
+                Outerwear
+            </option>
+
+        </select>
+     <label
+class="text-sm font-medium">
+
+    Season
+
+</label>
+
+<select
+id="edit-season"
+class="w-full border rounded-lg p-2 mb-4">
+
+    <option value="spring">
+        Spring
+    </option>
+
+    <option value="summer">
+        Summer
+    </option>
+
+    <option value="autumn">
+        Autumn
+    </option>
+
+    <option value="winter">
+        Winter
+    </option>
+
+</select>
+
+        <div class="flex gap-2">
+
+            <button
+            onclick="saveItemChanges()"
+            class="bg-gray-900 text-white px-4 py-2 rounded-lg">
+
+                Save
+
+            </button>
+
+            <button
+            onclick="closeEditPopup()"
+            class="border px-4 py-2 rounded-lg">
+
+                Cancel
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+  <div
+    id="calendar-popup"
+    style="
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.6);
+        justify-content:center;
+        align-items:center;
+        z-index:9999;">
+
+    <div
+        style="
+            background:white;
+            width:90%;
+            max-width:700px;
+            padding:20px;
+            border-radius:16px;">
+
+        <h2 class="text-xl font-bold mb-4">
+            Select Outfit
+        </h2>
+
+        <div
+            id="calendar-outfit-list"
+            class="grid grid-cols-3 gap-2 max-h-[60vh] overflow-y-auto">
+        </div>
+
+<div class="flex gap-3 mt-4">
+
+    <button
+        onclick="saveCalendarSelection()"
+        class="flex-1 py-3 rounded-xl border bg-black text-white">
+        OK
+    </button>
+
+    <button
+        onclick="removeCalendarOutfit()"
+        class="flex-1 py-3 rounded-xl border">
+        Remove
+    </button>
+
+    <button
+        onclick="closeCalendarPopup()"
+        class="flex-1 py-3 rounded-xl border">
+        Cancel
+    </button>
+
+</div>
+    </div>
+    </div>
+
+
+
+  <script src="/_sdk/c939c145c3c74230.editing_sdk.js" integrity="sha512-jh2pv/gl9Gzzn5dxfzwQO4wkqtnAQIim+LIUDYfVu2cdqPkQV2MqbjsDUW5IYbrSZFjRlOBrIWzlvWDXQYxOjg=="></script>
+  <script src="/_sdk/935a53bc2e11fb8d.data_sdk.js" integrity="sha512-qr2oyPnEys1WebcOABaRh6hG77r5PWpqeWW6JTKbRJqly/INsfBi31CVNlTmHqjgeLpkVmmHZJUdxSx/32tOFQ=="></script>
+  <script>
+
+let allData = [];
+let selectedIds = new Set();
+let creatingOutfit = false;
+   let currentCategory = "all";
+   let combinationCache = null;
+
+let editingItem = null;
+let allCombinationText = "";
+
+   // ===============================
+// CALENDAR
+// ===============================
+let selectedCalendarDay = null;
+let selectedCalendarOutfit = null;
+let currentMonth = 7;
+let currentYear = 2026;
+
+const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+];
+
+// ===============================
+// INIT
+// ===============================
+
+function initCalendarYears(){
+
+    const select =
+        document.getElementById("calendar-year");
+
+    if(!select) return;
+
+    select.innerHTML = "";
+
+    for(let y = 2020; y <= 2035; y++){
+
+        const option =
+            document.createElement("option");
+
+        option.value = y;
+        option.textContent = y;
+
+        select.appendChild(option);
+
+    }
+
+}
+
+// ===============================
+// RENDER
+// ===============================
+
+function renderCalendar(){
+
+    const year =
+        document.getElementById("calendar-year");
+
+    if(!year) return;
+
+    year.value = currentYear;
+
+    document.getElementById(
+        "calendar-month"
+    ).textContent =
+        monthNames[currentMonth];
+
+    buildCalendarGrid();
+
+}
+
+
+// ===============================
+// OPEN CALENDAR DAY
+// ===============================
+
+function openCalendarDay(day){
+
+    selectedCalendarDay = day;
+
+    showCalendarOutfits();
+
+}
+// ===============================
+// SAVE CALENDAR OUTFIT
+// ===============================
+
+function saveCalendarSelection(){
+
+    if(!selectedCalendarOutfit) return;
+
+  const date =
+    currentYear + "-" +
+    String(currentMonth + 1).padStart(2,"0") + "-" +
+    String(selectedCalendarDay).padStart(2,"0");
+
+    const transaction =
+        db.transaction(
+            ["calendar"],
+            "readwrite"
+        );
+
+    const store =
+        transaction.objectStore(
+            "calendar"
+        );
+
+    store.put({
+
+        date: date,
+
+        image_url:
+            selectedCalendarOutfit.image_url
+
+    });
+
+    transaction.oncomplete = function(){
+
+        closeCalendarPopup();
+
+        renderCalendar();
+
+    };
+
+}
+   // ===============================
+// REMOVE CALENDAR OUTFIT
+// ===============================
+
+function removeCalendarOutfit(){
+
+    const date =
+        currentYear + "-" +
+        String(currentMonth + 1).padStart(2,"0") + "-" +
+        String(selectedCalendarDay).padStart(2,"0");
+
+    const transaction =
+        db.transaction(
+            ["calendar"],
+            "readwrite"
+        );
+
+    const store =
+        transaction.objectStore(
+            "calendar"
+        );
+
+    store.delete(date);
+
+    transaction.oncomplete = function(){
+
+        closeCalendarPopup();
+
+        renderCalendar();
+
+    };
+
+}
+
+
+// ===============================
+// SHOW CALENDAR OUTFITS
+// ===============================
+
+function showCalendarOutfits(){
+
+    const list =
+        document.getElementById(
+            "calendar-outfit-list"
+        );
+
+    list.innerHTML = "";
+
+    const transaction =
+        db.transaction(
+            ["outfits"],
+            "readonly"
+        );
+
+    const store =
+        transaction.objectStore(
+            "outfits"
+        );
+
+    store.getAll().onsuccess = function(e){
+
+        const outfits =
+            e.target.result;
+
+        outfits.forEach(outfit=>{
+
+            const img =
+                document.createElement("img");
+
+            img.src =
+                outfit.image_url;
+
+            img.className =
+                "w-full rounded-lg border cursor-pointer";
+
+            img.onclick = function(){
+
+                selectedCalendarOutfit =
+                    outfit;
+
+                [...list.children].forEach(item=>{
+
+                    item.classList.remove(
+                        "border-4",
+                        "border-amber-500"
+                    );
+
+                });
+
+                img.classList.add(
+                    "border-4",
+                    "border-amber-500"
+                );
+
+            };
+
+            list.appendChild(img);
+
+        });
+
+        document.getElementById(
+            "calendar-popup"
+        ).style.display =
+            "flex";
+
+    };
+
+}
+
+
+// ===============================
+// CLOSE CALENDAR POPUP
+// ===============================
+
+function closeCalendarPopup(){
+
+    document.getElementById(
+        "calendar-popup"
+    ).style.display =
+        "none";
+
+}
+
+   // ===============================
+// CLEAR DATABASE
+// ===============================
+
+function clearDatabase(){
+
+    if(!confirm("Delete all local data?")){
+
+        return;
+
+    }
+
+    const transaction =
+        db.transaction(
+            ["wardrobe","outfits"],
+            "readwrite"
+        );
+
+    transaction.objectStore("wardrobe").clear();
+
+    transaction.objectStore("outfits").clear();
+
+    transaction.oncomplete = function(){
+
+        alert("Database deleted!");
+
+        location.reload();
+
+    };
+
+    transaction.onerror = function(){
+
+        alert("Error deleting database.");
+
+    };
+
+}
+
+// ===============================
+// GRID
+// ===============================
+
+function buildCalendarGrid(){
+
+    const grid =
+        document.getElementById("calendar-grid");
+
+    grid.innerHTML = "";
+
+    const firstDay =
+        new Date(currentYear,currentMonth,1);
+
+    let start =
+        firstDay.getDay();
+
+    start =
+        start === 0 ? 6 : start - 1;
+
+    const days =
+        new Date(
+            currentYear,
+            currentMonth + 1,
+            0
+        ).getDate();
+
+    let counter = 1;
+
+    for(let i=0;i<42;i++){
+
+        const cell =
+            document.createElement("div");
+
+       cell.className =
+    "min-h-[90px] border border-gray-300 rounded-lg bg-white p-2";
+
+        if(i >= start && counter <= days){
+
+            cell.innerHTML =
+                "<div class='text-xs text-gray-500'>" +
+                counter +
+                "</div>";
+
+            const day = counter;
+
+const date =
+    currentYear + "-" +
+    String(currentMonth + 1).padStart(2,"0") + "-" +
+    String(day).padStart(2,"0");day;
+         
+   
+            cell.onclick = function(){
+
+                openCalendarDay(day);
+
+            };
+
+   const transaction =
+    db.transaction(
+        ["calendar"],
+        "readonly"
+    );
+
+const store =
+    transaction.objectStore(
+        "calendar"
+    );
+
+store.get(date).onsuccess = function(e){
+
+    const event =
+        e.target.result;
+
+    if(event){
+
+        cell.innerHTML += `
+            <img
+                src="${event.image_url}"
+            class="w-full h-[90px] object-cover rounded mt-1">
+        `;
+
+    }
+
+};
+         counter++;
+
+        }
+
+        grid.appendChild(cell);
+
+    }
+
+}
+
+
+
+
+// ===============================
+// PREVIOUS
+// ===============================
+
+function previousMonth(){
+
+    currentMonth--;
+
+    if(currentMonth < 0){
+
+        currentMonth = 11;
+        currentYear--;
+
+    }
+
+    renderCalendar();
+
+}
+
+// ===============================
+// NEXT
+// ===============================
+
+function nextMonth(){
+
+    currentMonth++;
+
+    if(currentMonth > 11){
+
+        currentMonth = 0;
+        currentYear++;
+
+    }
+
+    renderCalendar();
+
+}
+
+// ===============================
+// CHANGE YEAR
+// ===============================
+
+function changeCalendarYear(){
+
+    currentYear = Number(
+        document.getElementById(
+            "calendar-year"
+        ).value
+    );
+
+    renderCalendar();
+
+}
+
+
+
+// ===============================
+// START CALENDAR
+// ===============================
+
+document.addEventListener("DOMContentLoaded",function(){
+
+    initCalendarYears();
+
+    renderCalendar();
+
+});
+
+// ===============================
+// LOADING POPUP
+// ===============================
+
+function showLoading() {
+
+    const popup = document.getElementById("loading-popup");
+
+    if (popup) {
+        popup.style.display = "flex";
+    }
+
+}
+
+function hideLoading() {
+
+    const popup = document.getElementById("loading-popup");
+
+    if (popup) {
+        popup.style.display = "none";
+    }
+
+}
+
+   // ===============================
+// FAVORITE FILTER
+// ===============================
+
+let favoriteMode = false;
+
+function toggleFavoriteFilter(){
+
+    favoriteMode = !favoriteMode;
+
+    document
+        .getElementById("favorite-filter-btn")
+        .classList.toggle("bg-black");
+
+    document
+        .getElementById("favorite-filter-btn")
+        .classList.toggle("text-white");
+
+    renderOutfitCollection();
+
+}
+// ===============================
+// INDEXEDDB - LOCAL STORAGE
+// ===============================
+
+let db;
+
+const request = indexedDB.open("DressMeDB", 2);
+
+request.onupgradeneeded = function(event) {
+
+    db = event.target.result;
+
+    if (!db.objectStoreNames.contains("wardrobe")) {
+
+        db.createObjectStore("wardrobe", {
+            keyPath: "id"
+        });
+
+    }
+
+    if (!db.objectStoreNames.contains("outfits")) {
+
+        db.createObjectStore("outfits", {
+            keyPath: "id"
+        });
+
+    }
+  if(!db.objectStoreNames.contains("calendar")){
+
+        db.createObjectStore(
+
+            "calendar",
+
+            {
+
+                keyPath:"date"
+
+            }
+
+        );
+
+    }
+
+
+};
+
+
+request.onsuccess = function(event) {
+
+    db = event.target.result;
+
+    loadLocalData();
+
+};
+
+
+request.onerror = function() {
+
+    console.error("IndexedDB error");
+
+};
+
+
+// ===============================
+// LOAD LOCAL DATA
+// ===============================
+
+async function loadLocalData() {
+
+    const wardrobeItems =
+        await getWardrobeItems();
+
+    allData =
+        allData.filter(
+            item => item.type !== "item"
+        );
+
+    allData.push(
+        ...wardrobeItems
+    );
+
+    renderWardrobe();
+
+    renderOutfitCollection();
+
+}
+// ===============================
+// TOGGLE OUTFIT UPLOAD FORM
+// ===============================
+
+function toggleOutfitUploadForm(){
+
+    document
+    .getElementById("outfit-upload-form")
+    .classList
+    .toggle("hidden");
+
+}
+
+   // ===============================
+// SAVE UPLOADED OUTFIT
+// ===============================
+
+function saveUploadedOutfit(){
+
+    const files =
+        document
+        .getElementById("outfit-files")
+        .files;
+
+
+    const season =
+        document
+        .getElementById("outfit-season")
+        .value;
+
+
+    if(files.length === 0){
+        return;
+    }
+
+
+    [...files].forEach(file => {
+
+
+        const reader = new FileReader();
+
+
+        reader.onload = function(event){
+
+
+            const outfit = {
+
+                id: crypto.randomUUID(),
+
+                name:
+                    file.name
+                    .replace(/\.[^/.]+$/,"")
+                    .toLowerCase(),
+
+             season: season,
+             favorite: false,
+
+                image_url:
+                    event.target.result
+
+            };
+
+
+            const transaction =
+                db.transaction(
+                    ["outfits"],
+                    "readwrite"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    "outfits"
+                );
+
+
+            store.put(outfit);
+
+
+            transaction.oncomplete = function(){
+
+                renderOutfitCollection();
+
+            };
+
+
+        };
+
+
+        reader.readAsDataURL(file);
+
+
+    });
+
+
+    document
+    .getElementById("outfit-upload-form")
+    .classList
+    .add("hidden");
+
+
+    document
+    .getElementById("outfit-files")
+    .value = "";
+
+
+}
+
+// ===============================
+// SAVE WARDROBE ITEM
+// ===============================
+
+function saveWardrobeItem(item) {
+
+    const transaction =
+        db.transaction(
+            ["wardrobe"],
+            "readwrite"
+        );
+
+    const store =
+        transaction.objectStore(
+            "wardrobe"
+        );
+
+    store.put(item);
+
+}
+   function deleteWardrobeItem(id) {
+
+    if (!confirm("Delete this item?")) {
+        return;
+    }
+
+    const transaction =
+        db.transaction(
+            ["wardrobe"],
+            "readwrite"
+        );
+
+    const store =
+        transaction.objectStore(
+            "wardrobe"
+        );
+
+    const request =
+        store.delete(id);
+
+  request.onsuccess = function() {
+
+    allData =
+        allData.filter(
+            item =>
+                item.id !== id &&
+                item.__backendId !== id
+        );
+
+    combinationCache = null;
+
+    renderWardrobe();
+
+};
+
+}
+   function toggleFavorite(id){
+
+    const item =
+        allData.find(
+            i => (i.id || i.__backendId) === id
+        );
+
+    if(!item) return;
+
+    item.favorite = !item.favorite;
+
+    saveWardrobeItem(item);
+
+    renderWardrobe();
+
+}
+
+
+// ===============================
+// GET WARDROBE ITEMS
+// ===============================
+
+function getWardrobeItems() {
+
+    return new Promise((resolve) => {
+
+        const transaction =
+            db.transaction(
+                ["wardrobe"],
+                "readonly"
+            );
+
+        const store =
+            transaction.objectStore(
+                "wardrobe"
+            );
+
+        const request =
+            store.getAll();
+
+        request.onsuccess =
+            function() {
+
+                resolve(
+                    request.result
+                );
+
+            };
+
+    });
+
+}
+
+
+// ===============================
+// DATA SDK
+// ===============================
+
+const handler = {
+
+    onDataChanged(data) {
+
+        allData = data;
+
+        loadLocalData();
+
+        renderOutfits();
+
+    }
+
+};
+
+
+(async () => {
+
+    const r =
+        await window.dataSdk.init(
+            handler
+        );
+
+    if (!r.isOk) {
+
+        console.error(
+            "SDK init failed"
+        );
+
+    }
+
+    lucide.createIcons();
+
+})();
+
+
+// ===============================
+// ITEMS
+// ===============================
+
+function items() {
+
+    return allData.filter(
+        d => d.type === "item"
+    );
+
+}
+
+
+// ===============================
+// OUTFITS
+// ===============================
+
+function outfits() {
+
+    return allData.filter(
+        d => d.type === "outfit"
+    );
+
+}
+
+
+// ===============================
+// SWITCH TABS
+// ===============================
+
+function switchTab(tab) {
+
+    document
+        .getElementById("view-wardrobe")
+        .classList.toggle("hidden", tab !== "wardrobe");
+
+    document
+        .getElementById("view-outfits")
+        .classList.toggle("hidden", tab !== "outfits");
+
+    document
+        .getElementById("view-calendar")
+        .classList.toggle("hidden", tab !== "calendar");
+
+    // Elimină bara de la toate taburile
+    document
+        .querySelectorAll("nav button")
+        .forEach(button =>
+            button.classList.remove("tab-active")
+        );
+
+    // Adaugă bara la tabul selectat
+    document
+        .getElementById("tab-" + tab)
+        .classList.add("tab-active");
+
+    if (tab === "calendar") {
+        renderCalendar();
+    }
+}
+
+
+// ===============================
+// ADD ITEM FORM
+// ===============================
+
+function toggleAddForm() {
+
+    document
+        .getElementById(
+            "add-form"
+        )
+        .classList
+        .toggle(
+            "hidden"
+        );
+
+}
+
+// ===============================
+// DOWNLOAD MISSING COMBINATIONS
+// ===============================
+
+function downloadMissingCombinations() {
+
+    if (
+        !missingCombinationText ||
+        missingCombinationText.trim() === ""
+    ) {
+
+        alert("There are no missing combinations.");
+
+        return;
+
+    }
+
+    const blob = new Blob(
+        [missingCombinationText],
+        {
+            type: "text/plain;charset=utf-8"
+        }
+    );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const link =
+        document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+        "missing-combinations.txt";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+}
+
+// ===============================
+// UPLOAD WARDROBE ITEMS
+// ===============================
+
+async function addItem(e) {
+
+    e.preventDefault();
+
+    const category =
+        document.getElementById("item-cat").value;
+
+    const season =
+        document.getElementById("item-season").value;
+
+    const files =
+        document.getElementById("item-files").files;
+
+    if (files.length === 0) {
+        return;
+    }
+
+    for (const file of files) {
+
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+
+            const id = crypto.randomUUID();
+
+            const item = {
+
+                id: id,
+
+                __backendId: id,
+
+                type: "item",
+
+                name: file.name
+                    .replace(/\.[^/.]+$/, "")
+                    .toLowerCase(),
+
+                category: category,
+
+                season: season,
+
+                image_url: event.target.result,
+
+                favorite: false
+
+            };
+         //console.log(item);
+//alert(JSON.stringify(item));
+
+            saveWardrobeItem(item);
+
+            combinationCache = null;
+
+            allData.push(item);
+
+            renderWardrobe();
+
+        };
+
+        reader.readAsDataURL(file);
+
+    }
+
+    e.target.reset();
+
+    toggleAddForm();
+
+}
+
+
+// ===============================
+// UPLOAD OUTFIT PHOTOS
+// ===============================
+
+function uploadOutfits(files) {
+
+    [...files].forEach(
+        file => {
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function(event) {
+
+                    const id =
+                        crypto.randomUUID();
+
+
+                    const season =
+    document.getElementById(
+        "outfit-season"
+    ).value;
+
+const outfit = {
+
+    id:id,
+
+    name:file.name
+        .replace(/\.[^/.]+$/,"")
+        .toLowerCase()
+        .trim(),
+
+    season:season,
+
+    image_url:event.target.result
+
+};
+
+
+                    const transaction =
+                        db.transaction(
+                            ["outfits"],
+                            "readwrite"
+                        );
+
+
+                    const store =
+                        transaction.objectStore(
+                            "outfits"
+                        );
+
+
+                    store.put(
+                        outfit
+                    );
+
+
+                    transaction.oncomplete =
+                        function() {
+
+                            renderOutfitCollection();
+
+                        };
+
+                };
+
+
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
+
+}
+
+
+// ===============================
+// RENDER OUTFIT COLLECTION
+// ===============================
+
+function renderOutfitCollection(){
+
+    if(!db) return;
+
+    const filter =
+        document.getElementById("outfit-filter").value;
+
+    const grid =
+        document.getElementById("outfits-grid");
+
+    grid.innerHTML = "";
+
+    const transaction =
+        db.transaction(["outfits"],"readonly");
+
+    const store =
+        transaction.objectStore("outfits");
+
+    const request =
+        store.getAll();
+
+    request.onsuccess = function(){
+
+        let outfits = request.result;
+
+        if(favoriteMode){
+
+            outfits = outfits.filter(
+                o => o.favorite
+            );
+
+        }
+
+        if(filter !== "all"){
+
+            outfits = outfits.filter(
+                o => o.season === filter
+            );
+
+        }
+
+        outfits.forEach((outfit,index)=>{
+
+            const active = index === 1;
+
+            const div =
+                document.createElement("div");
+
+            div.className = `
+                outfit-card
+                relative
+                flex-shrink-0
+                transition-all
+                duration-300
+           ${active
+    ? "w-[260px] z-30"
+    : "w-[85px] opacity-50 -ml-6 mt-24 z-10"}
+            `;
+
+            div.innerHTML = `
+
+                <img
+                    src="${outfit.image_url}"
+                    alt="${outfit.name}"
+                    onclick="selectOutfitCard(this,'${outfit.id}')"
+                    class="w-full ${active ? "h-[360px]" : "h-[170px]"} object-contain cursor-pointer">
+
+                ${
+                    active
+                    ?
+                    `
+                    <div class="pt-2 px-2">
+                        <p class="outfit-name text-sm font-semibold text-center break-words">
+                            ${outfit.name}
+                        </p>
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+            <button
+    id="favorite-${outfit.id}"
+    onclick="event.stopPropagation();toggleOutfitFavorite('${outfit.id}')"
+    class="absolute top-2 left-2 bg-white rounded-full p-1"
+    style="display:none;">
+
+    ${outfit.favorite ? "⭐" : "☆"}
+
+</button>
+
+                <button
+                    id="delete-${outfit.id}"
+                    onclick="event.stopPropagation();deleteOutfit('${outfit.id}')"
+                    class="absolute top-2 right-2 bg-white rounded-full p-1 hidden">
+
+                    ✖️
+
+                </button>
+
+            `;
+
+            grid.appendChild(div);
+
+        });
+
+    };
+
+}
+// ===============================
+// SELECT OUTFIT CARD
+// ===============================
+
+function selectOutfitCard(img,id){
+
+    const cards =
+        [...document.querySelectorAll(".outfit-card")];
+
+    cards.forEach(card=>{
+
+        const text =
+            card.querySelector(".outfit-name");
+
+        if(text){
+
+            text.parentElement.remove();
+
+        }
+
+        card.classList.remove(
+            "w-[260px]",
+            "z-30"
+        );
+
+        card.classList.add(
+    "w-[85px]",
+    "opacity-50",
+    "-ml-6",
+    "mt-24",
+    "z-10"
+);
+
+        const image =
+            card.querySelector("img");
+
+        image.classList.remove(
+            "h-[360px]"
+        );
+
+        image.classList.add(
+            "h-[170px]"
+        );
+
+    });
+
+    const current =
+        img.parentElement;
+
+    current.classList.remove(
+    "w-[85px]",
+    "opacity-50",
+    "-ml-6",
+    "mt-24",
+    "z-10"
+);
+
+    current.classList.add(
+        "w-[260px]",
+        "z-30"
+    );
+
+    img.classList.remove(
+        "h-[170px]"
+    );
+
+    img.classList.add(
+        "h-[360px]"
+    );
+
+    current.insertAdjacentHTML(
+
+        "beforeend",
+
+        `
+        <div class="pt-2 px-2">
+            <p class="outfit-name text-sm font-semibold text-center break-words">
+                ${img.alt}
+            </p>
+        </div>
+        `
+
+    );
+
+    toggleDeleteButton(id);
+
+}
+   // ===============================
+// CANONICAL OUTFIT KEY
+// ===============================
+
+function comboKey(names){
+
+    return names
+        .map(n => n.toLowerCase().trim())
+        .sort()
+        .join("-");
+
+}
+// ===============================
+// SHOW / HIDE DELETE + FAVORITE
+// ===============================
+
+function toggleDeleteButton(id){
+
+    // Ascunde toate butoanele
+    document.querySelectorAll('[id^="delete-"]').forEach(btn=>{
+        btn.style.display = "none";
+    });
+
+    document.querySelectorAll('[id^="favorite-"]').forEach(btn=>{
+        btn.style.display = "none";
+    });
+
+    // Afișează doar pentru outfitul selectat
+    const del = document.getElementById("delete-" + id);
+    const fav = document.getElementById("favorite-" + id);
+
+    if(del) del.style.display = "block";
+    if(fav) fav.style.display = "block";
+
+}
+   // ===============================
+// SET CATEGORY FILTER
+// ===============================
+
+function setCategory(category){
+
+    currentCategory = category;
+
+    document.querySelectorAll("#category-bar .category-btn")
+        .forEach(btn => btn.classList.remove("active"));
+
+    document
+        .querySelector(`#category-bar .category-btn[data-category="${category}"]`)
+        ?.classList.add("active");
+
+    renderWardrobe();
+
+}
+   // ===============================
+// DELETE OUTFIT
+// ===============================
+
+function deleteOutfit(id){
+
+    if(!confirm("Delete this outfit?")){
+        return;
+    }
+
+    const transaction =
+        db.transaction(
+            ["outfits"],
+            "readwrite"
+        );
+
+    const store =
+        transaction.objectStore(
+            "outfits"
+        );
+
+    store.delete(id);
+
+    transaction.oncomplete = function(){
+
+        renderOutfitCollection();
+
+    };
+
+}
+   // ===============================
+// AI PROMPTS
+// ===============================
+
+const ITEM_PROMPT = `Create a high-resolution fashion product image of the clothing item shown in the reference image.
+
+ITEMS :
+Requirements:
+- Preserve the exact garment design, shape, color, proportions, stitching, fabric texture, folds, buttons, zippers, lace, embroidery, prints, and all details from the reference.
+- The garment should appear naturally worn by an invisible mannequin (ghost mannequin effect), giving it realistic volume and body shape.
+- No visible person, model, mannequin, neck, hands, legs, arms, or any body parts.
+- The clothing should look as if it is being worn by a model, with realistic drape and fit, but the wearer must be completely invisible.
+- Transparent background (true alpha PNG).
+- Front view, centered.
+- Entire garment visible, not cropped.
+- Soft professional studio lighting.
+- Photorealistic, ultra-detailed, luxury fashion e-commerce style.
+- Crisp edges with no white halo.
+- 4K quality.
+- Output as a PNG with transparent background.
+
+`;
+
+function showPromptPopup(){
+
+    document.getElementById(
+        "item-prompt"
+    ).value = AI_INFO;
+
+    document.getElementById(
+        "prompt-popup"
+    ).style.display = "flex";
+
+}
+   const AI_INFO = `AI Prompt Library
+
+Use the buttons above to copy the prompt you need.
+
+📦 Copy Item Prompt
+• Generates a ghost mannequin clothing image from a garment reference.
+
+👗 Copy Outfit Prompt
+• Generates a full-body outfit using a person reference and a clothing reference.
+
+The complete prompt will be copied directly to your clipboard.`;
+
+function closePromptPopup(){
+
+    document.getElementById(
+        "prompt-popup"
+    ).style.display = "none";
+
+}
+
+function copyItemPrompt(){
+
+    navigator.clipboard.writeText(
+        ITEM_PROMPT
+    );
+
+    alert("Prompt copied!");
+
+}
+   // ===============================
+// COPY OUTFIT AI PROMPT
+// ===============================
+
+function copyOutfitPrompt(){
+
+    const prompt = `OUTFIT:
+Create an ultra-photorealistic full-body fashion image using the two reference images.
+
+Reference Image 1:
+Use this image as the identity reference. Preserve the woman's exact facial identity, hairstyle, body proportions, skin tone, body shape, height, posture, hands, legs, and overall physique. Do not beautify, age, slim, or alter her appearance. Keep her face as close as possible to the original with realistic skin texture, eyes, facial proportions, expression, and hair.
+
+Reference Image 2:
+Use only the garment from this image. Remove her original outfit and dress her in the exact clothing shown, preserving its design, color, cut, length, neckline, stitching, fabric texture, wrinkles, seams, and fit. The clothing should look naturally worn on her body with realistic folds and fabric tension.
+
+Requirements:
+- Generate a complete full-body image from head to toe.
+- Keep the exact identity from Reference Image 1.
+- Dress her only in the garment from Reference Image 2.
+- Maintain anatomically correct proportions.
+- Natural relaxed fashion pose suitable for an online clothing catalog.
+- Arms and hands fully visible.
+- Legs and feet fully visible.
+- No cropping.
+- No accessories unless present in the clothing reference.
+- No shoes unless included in the clothing reference.
+- Studio-quality soft lighting.
+- Highly realistic fabric physics.
+- Photorealistic skin with natural pores and details.
+- High-resolution fashion photography.
+- Transparent PNG background (alpha channel).
+- Centered composition with the entire body visible.
+- No text, logos, watermarks, shadows, or extra objects.
+- Output should resemble professional e-commerce apparel photography while preserving the person's exact identity.`;
+
+    navigator.clipboard.writeText(prompt);
+
+    alert("Outfit AI prompt copied!");
+
+}
+   // ===============================
+// CATEGORY / FAVORITES FILTER
+// ===============================
+
+if(categoryFilter === "favorites"){
+
+    list = list.filter(
+        item => item.favorite
+    );
+
+}
+else if(categoryFilter !== "all"){
+
+    list = list.filter(
+        item => item.category === categoryFilter
+    );
+
+}
+
+// ===============================
+// DELETE LOCAL OUTFIT
+// ===============================
+
+function deleteLocalOutfit(id) {
+
+    const transaction =
+        db.transaction(
+            ["outfits"],
+            "readwrite"
+        );
+
+
+    const store =
+        transaction.objectStore(
+            "outfits"
+        );
+
+
+    store.delete(
+        id
+    );
+
+
+    transaction.oncomplete =
+        function() {
+
+            renderOutfitCollection();
+
+        };
+
+}
+
+   function toggleOutfitDelete(id){
+
+    const button =
+        document.getElementById(
+            "delete-outfit-" + id
+        );
+
+
+    if(button){
+
+        button.classList.toggle("hidden");
+
+    }
+
+}
+   function toggleOutfitFavorite(id){
+
+    const transaction =
+        db.transaction(
+            ["outfits"],
+            "readwrite"
+        );
+
+    const store =
+        transaction.objectStore(
+            "outfits"
+        );
+
+    const request =
+        store.get(id);
+
+    request.onsuccess = function(){
+
+        const outfit =
+            request.result;
+
+        if(!outfit) return;
+
+        outfit.favorite =
+            !outfit.favorite;
+
+        store.put(outfit);
+
+        renderOutfitCollection();
+
+    };
+
+}
+
+// ===============================
+// DELETE RECORD
+// ===============================
+
+async function deleteRecord(rec) {
+
+    if (!rec) {
+
+        return;
+
+    }
+
+
+    await window.dataSdk.delete(
+        rec
+    );
+
+}
+
+
+// ===============================
+// RENDER WARDROBE
+// ===============================
+
+function renderWardrobe() {
+
+const categoryFilter = currentCategory;
+
+    const seasonFilter =
+        document
+            .getElementById(
+                "season-filter"
+            )
+            .value;
+
+    let list = items();
+
+    // Category / Favorites
+    if(categoryFilter === "favorites"){
+
+        list =
+            list.filter(
+                item => item.favorite
+            );
+
+    }
+    else if(categoryFilter !== "all"){
+
+        list =
+            list.filter(
+                item => item.category === categoryFilter
+            );
+
+    }
+
+    // Season
+    if(seasonFilter !== "all"){
+
+        list =
+            list.filter(
+                item =>
+                    (item.season || "summer") === seasonFilter
+            );
+
+    }
+
+    const grid =
+        document
+            .getElementById(
+                "wardrobe-grid"
+            );
+
+    const empty =
+        document
+            .getElementById(
+                "wardrobe-empty"
+            );
+
+    empty.classList.toggle(
+        "hidden",
+        list.length > 0
+    );
+
+    grid.innerHTML = "";
+
+    list.forEach(item => {
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+        div.className =
+            "relative rounded-xl overflow-hidden bg-white border group";
+
+        div.innerHTML = `
+
+            <img
+                src="${item.image_url}"
+                alt="${item.name}"
+                onclick="editItem('${item.id || item.__backendId}')"
+                class="w-full aspect-square object-contain bg-gray-50 cursor-pointer">
+
+            <div class="p-2">
+
+                <p class="text-xs font-medium truncate">
+
+                    ${item.name}
+
+                </p>
+
+                <p class="text-[10px] text-gray-400 uppercase">
+
+                    ${item.category} • ${(item.season || "summer")}
+
+                </p>
+
+            </div>
+
+            <button
+                onclick="toggleFavorite('${item.id || item.__backendId}')"
+                class="absolute top-1 left-1 bg-white/80 rounded-full p-1">
+
+                ${item.favorite ? "⭐" : "☆"}
+
+            </button>
+
+            <button
+                onclick="deleteWardrobeItem('${item.id || item.__backendId}')"
+                class="absolute top-1 right-1 bg-white/80 rounded-full p-1 opacity-0 group-hover:opacity-100 transition">
+
+                🗑️
+
+            </button>
+
+        `;
+
+        grid.appendChild(div);
+
+    });
+
+    lucide.createIcons();
+ document.querySelectorAll(".lucide").forEach(icon => {
+
+    icon.setAttribute("stroke-width", "1");
+
+});
+
+}
+
+// ===============================
+// NEW OUTFIT
+// ===============================
+
+function startOutfitCreation() {
+
+    creatingOutfit =
+        true;
+
+
+    selectedIds.clear();
+
+
+    updateOutfitName();
+
+
+    document
+        .getElementById(
+            "outfit-creator"
+        )
+        .classList
+        .remove(
+            "hidden"
+        );
+
+
+    renderPicker();
+
+}
+
+
+// ===============================
+// CANCEL
+// ===============================
+
+function cancelOutfit() {
+
+    creatingOutfit =
+        false;
+
+
+    document
+        .getElementById(
+            "outfit-creator"
+        )
+        .classList
+        .add(
+            "hidden"
+        );
+
+}
+
+
+// ===============================
+// OUTFIT NAME
+// ===============================
+
+function updateOutfitName() {
+
+    const name =
+
+        [...selectedIds]
+
+            .map(
+                id =>
+                    items()
+                        .find(
+                            item =>
+                                item.__backendId === id
+                        )
+                        ?.name
+            )
+
+            .filter(Boolean)
+
+            .join("-");
+
+
+    document
+        .getElementById(
+            "outfit-name"
+        )
+        .value =
+            name;
+
+}
+
+
+// ===============================
+// PICKER
+// ===============================
+
+function renderPicker() {
+
+    const picker =
+        document.getElementById(
+            "outfit-picker"
+        );
+
+    picker.innerHTML = "";
+
+    const mode =
+        document.getElementById(
+            "generate-filter"
+        ).value;
+
+    let pickerItems = items();
+
+    if(mode === "favorites"){
+
+        pickerItems =
+            pickerItems.filter(
+                item => item.favorite
+            );
+
+    }
+    else if(mode !== "all"){
+
+        pickerItems =
+            pickerItems.filter(
+                item => item.season === mode
+            );
+
+    }
+
+    pickerItems.forEach(
+        item => {
+
+            const d =
+                document.createElement(
+                    "div"
+                );
+
+            const sel =
+                selectedIds.has(
+                    item.__backendId
+                );
+
+            d.className =
+                `cursor-pointer rounded-lg overflow-hidden border-2 ${
+                    sel
+                        ? "border-amber-500"
+                        : "border-transparent"
+                }`;
+
+            d.innerHTML = `
+
+                <img
+                    src="${item.image_url}"
+                    alt="${item.name}"
+                    class="w-full aspect-square object-contain bg-gray-50">
+
+            `;
+
+            d.onclick = () => {
+
+                if(
+                    selectedIds.has(
+                        item.__backendId
+                    )
+                ){
+
+                    selectedIds.delete(
+                        item.__backendId
+                    );
+
+                }
+                else{
+
+                    selectedIds.add(
+                        item.__backendId
+                    );
+
+                }
+
+                updateOutfitName();
+
+                renderPicker();
+
+                updateGenerateButton();
+
+            };
+
+            picker.appendChild(
+                d
+            );
+
+        }
+    );
+
+    updateGenerateButton();
+
+}
+
+// ===============================
+// COMBINATION POPUP
+// ===============================
+
+function comboKey(names){
+
+    return names
+        .map(n => n.toLowerCase().trim())
+        .sort()
+        .join("-");
+
+}
+
+function closeCombinationPopup(){
+
+    const popup =
+        document.getElementById("combination-popup");
+
+    if(popup){
+
+        popup.style.display = "none";
+
+    }
+
+}
+
+// ===============================
+// COMBINATION POPUP
+// ===============================
+
+function closeCombinationPopup(){
+
+    document.getElementById(
+        "combination-popup"
+    ).style.display = "none";
+
+}
+
+function downloadMissingCombinations(){
+
+    if(!missingCombinationText){
+
+        alert("No missing combinations.");
+
+        return;
+
+    }
+
+    const blob =
+        new Blob(
+            [missingCombinationText],
+            {
+                type:"text/plain"
+            }
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+        "missing-combinations.txt";
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+
+    closeCombinationPopup();
+
+}
+// ===============================
+// CHECK COMBINATIONS
+// ===============================
+
+function canonicalOutfitKey(names){
+
+    return names
+        .map(name => name.toLowerCase().trim())
+        .sort()
+        .join("-");
+
+}
+
+function showCombinationChecker(){
+
+    const wardrobe = items();
+
+    const bottoms =
+        wardrobe.filter(i => i.category === "bottoms");
+
+    const tops =
+        wardrobe.filter(i => i.category === "tops");
+
+    const dresses =
+        wardrobe.filter(i => i.category === "dress");
+
+    const shoes =
+        wardrobe.filter(i => i.category === "shoes");
+
+    const outerwear =
+        wardrobe.filter(i => i.category === "outerwear");
+
+    const transaction =
+        db.transaction(
+            ["outfits"],
+            "readonly"
+        );
+
+    const store =
+        transaction.objectStore(
+            "outfits"
+        );
+
+    store.getAll().onsuccess = function(e){
+
+        const outfits =
+            e.target.result;
+
+        const saved =
+            new Set(
+                outfits.map(outfit =>
+                    canonicalOutfitKey(
+                        outfit.name.split("-")
+                    )
+                )
+            );
+
+        let missing = [];
+
+        function check(parts){
+
+            const names =
+                parts.map(item => item.name);
+
+            const key =
+                canonicalOutfitKey(names);
+
+            if(!saved.has(key)){
+
+                missing.push(
+                    names.join("-")
+                );
+
+            }
+
+        }
+
+        // Dress
+
+        dresses.forEach(dress=>{
+
+            check([dress]);
+
+            shoes.forEach(shoe=>{
+
+                check([
+                    dress,
+                    shoe
+                ]);
+
+            });
+
+            outerwear.forEach(jacket=>{
+
+                check([
+                    dress,
+                    jacket
+                ]);
+
+            });
+
+            shoes.forEach(shoe=>{
+
+                outerwear.forEach(jacket=>{
+
+                    check([
+                        dress,
+                        shoe,
+                        jacket
+                    ]);
+
+                });
+
+            });
+
+        });
+
+        // Bottom + Top
+
+        bottoms.forEach(bottom=>{
+
+            tops.forEach(top=>{
+
+                check([
+                    bottom,
+                    top
+                ]);
+
+                shoes.forEach(shoe=>{
+
+                    check([
+                        bottom,
+                        top,
+                        shoe
+                    ]);
+
+                });
+
+                outerwear.forEach(jacket=>{
+
+                    check([
+                        bottom,
+                        top,
+                        jacket
+                    ]);
+
+                });
+
+                shoes.forEach(shoe=>{
+
+                    outerwear.forEach(jacket=>{
+
+                        check([
+                            bottom,
+                            top,
+                            shoe,
+                            jacket
+                        ]);
+
+                    });
+
+                });
+
+            });
+
+        });
+
+        missing =
+            [...new Set(missing)];
+
+        if(missing.length === 0){
+
+            alert(
+                "Everything exists 🎉"
+            );
+
+            return;
+
+        }
+
+        missingCombinationText =
+            missing.join("\n");
+
+        document.getElementById(
+            "combination-popup"
+        ).style.display =
+            "flex";
+
+    };
+
+}
+
+
+// ===============================
+// GENERATE BUTTON
+// ===============================
+
+function updateGenerateButton() {
+
+    const button =
+        document.getElementById(
+            "generate-button"
+        );
+
+
+    if (
+        selectedIds.size > 0
+    ) {
+
+        button.classList.remove(
+            "hidden"
+        );
+
+    }
+
+    else {
+
+        button.classList.add(
+            "hidden"
+        );
+
+    }
+
+}
+
+
+// ===============================
+// SAVE OUTFIT
+// ===============================
+
+async function saveOutfit() {
+
+    const name =
+        document
+            .getElementById(
+                "outfit-name"
+            )
+            .value
+            .trim();
+
+
+    if (
+        !name ||
+        selectedIds.size === 0
+    ) {
+
+        return;
+
+    }
+
+
+    await window.dataSdk.create({
+
+        type:
+            "outfit",
+
+        name:
+            name,
+
+        category:
+            "",
+
+        image_url:
+            "",
+
+        outfit_items:
+            [
+                ...selectedIds
+            ]
+            .join(",")
+
+    });
+
+
+    document
+        .getElementById(
+            "outfit-name"
+        )
+        .value =
+            "";
+
+
+    cancelOutfit();
+
+}
+
+   // ===============================
+
+// PERMUTATIONS
+
+// ===============================
+
+function getPermutations(arr) {
+
+    if (arr.length <= 1) {
+
+        return [arr];
+
+    }
+
+    const result = [];
+
+    arr.forEach((item, index) => {
+
+        const rest = [
+
+            ...arr.slice(0, index),
+
+            ...arr.slice(index + 1)
+
+        ];
+
+        getPermutations(rest).forEach(p => {
+
+            result.push([item, ...p]);
+
+        });
+
+    });
+
+    return result;
+
+}
+
+// ===============================
+// EXPORT JSON (WARDROBE + OUTFITS)
+// ===============================
+
+async function exportWardrobeJSON(){
+
+    const wardrobe = await getWardrobeItems();
+
+    const transaction =
+        db.transaction(["outfits"], "readonly");
+
+    const store =
+        transaction.objectStore("outfits");
+
+    const request =
+        store.getAll();
+
+    request.onsuccess = function(){
+
+        const backup = {
+
+            wardrobe: wardrobe,
+
+            outfits: request.result
+
+        };
+
+        const blob = new Blob(
+            [
+                JSON.stringify(
+                    backup,
+                    null,
+                    2
+                )
+            ],
+            {
+                type:"application/json"
+            }
+        );
+
+        const url =
+            URL.createObjectURL(blob);
+
+        const a =
+            document.createElement("a");
+
+        a.href = url;
+
+        a.download =
+            "dressme-backup.json";
+
+        a.click();
+
+        URL.revokeObjectURL(url);
+
+    };
+
+}
+   // ===============================
+// IMPORT JSON (WARDROBE + OUTFITS)
+// ===============================
+
+function importWardrobeJSON(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file) return;
+
+    const reader =
+        new FileReader();
+
+    reader.onload = function(e){
+
+        const backup =
+            JSON.parse(
+                e.target.result
+            );
+
+        const transaction =
+            db.transaction(
+                ["wardrobe","outfits"],
+                "readwrite"
+            );
+
+        const wardrobeStore =
+            transaction.objectStore(
+                "wardrobe"
+            );
+
+        const outfitStore =
+            transaction.objectStore(
+                "outfits"
+            );
+
+        if(backup.wardrobe){
+
+            backup.wardrobe.forEach(item=>{
+
+                wardrobeStore.put(item);
+
+            });
+
+        }
+
+        if(backup.outfits){
+
+            backup.outfits.forEach(outfit=>{
+
+                outfitStore.put(outfit);
+
+            });
+
+        }
+
+        transaction.oncomplete = function(){
+
+            loadLocalData();
+
+            renderOutfitCollection();
+
+            alert("Backup imported!");
+
+        };
+
+    };
+
+    reader.readAsText(file);
+
+}
+// ===============================
+// GENERATE OUTFIT
+// ===============================
+
+async function generateOutfit() {
+
+    const selectedItems =
+        [...selectedIds]
+            .map(id =>
+                items().find(
+                    item => item.__backendId === id
+                )
+            )
+            .filter(Boolean);
+
+    if (selectedItems.length === 0) {
+        return;
+    }
+
+    showLoading();
+
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    const itemNames =
+        selectedItems.map(item =>
+            item.name.toLowerCase().trim()
+        );
+
+    const combinations =
+        getPermutations(itemNames)
+            .map(p => p.join("-"));
+
+    const transaction =
+        db.transaction(["outfits"], "readonly");
+
+    const store =
+        transaction.objectStore("outfits");
+
+    const request =
+        store.getAll();
+
+    request.onsuccess = function () {
+
+        const localOutfits =
+            request.result;
+
+        const found =
+            localOutfits.find(
+                outfit =>
+                    combinations.includes(
+                        outfit.name.toLowerCase().trim()
+                    )
+            );
+
+        hideLoading();
+
+        if (!found) {
+
+            alert(
+                "No outfit found for:\n" +
+                combinations.join("\n")
+            );
+
+            return;
+
+        }
+
+        document
+            .getElementById("generated-image")
+            .src = found.image_url;
+
+        document
+            .getElementById("generated-name")
+            .textContent =
+                selectedItems
+                    .map(item => item.name)
+                    .join(" + ");
+
+        document
+    .getElementById("generated-outfit")
+    .style.display = "flex";
+
+    };
+
+    request.onerror = function () {
+
+        hideLoading();
+
+        alert("Error loading outfits.");
+
+    };
+
+}
+
+
+
+
+
+// ===============================
+// COPY COMBINATION
+// ===============================
+
+   function copyAllCombinations(){
+
+    navigator.clipboard.writeText(
+        allCombinationText
+    );
+
+    alert("Copied!");
+
+}
+// ===============================
+// CHECK ALL NAME PERMUTATIONS
+// ===============================
+
+function getNamePermutations(names){
+
+    if(names.length <= 1){
+        return [names];
+    }
+
+    let result = [];
+
+    names.forEach((name,index)=>{
+
+        const rest = [
+            ...names.slice(0,index),
+            ...names.slice(index+1)
+        ];
+
+        getNamePermutations(rest).forEach(p=>{
+
+            result.push([
+                name,
+                ...p
+            ]);
+
+        });
+
+    });
+
+    return result;
+
+}
+   // ===============================
+// EDIT WARDROBE ITEM
+// ===============================
+
+function editItem(id){
+
+    editingItem =
+        allData.find(
+            i => (i.id || i.__backendId) === id
+        );
+
+    if(!editingItem){
+        return;
+    }
+
+    document.getElementById(
+        "edit-name"
+    ).value =
+        editingItem.name;
+
+    document.getElementById(
+        "edit-category"
+    ).value =
+        editingItem.category;
+
+    document.getElementById(
+        "edit-season"
+    ).value =
+        editingItem.season || "summer";
+
+    document.getElementById(
+        "edit-popup"
+    ).style.display =
+        "flex";
+
+}
+
+function closeEditPopup(){
+
+    document.getElementById(
+        "edit-popup"
+    ).style.display =
+        "none";
+
+}
+
+function saveItemChanges(){
+
+    editingItem.name =
+        document.getElementById(
+            "edit-name"
+        ).value;
+
+    editingItem.category =
+        document.getElementById(
+            "edit-category"
+        ).value;
+
+    editingItem.season =
+        document.getElementById(
+            "edit-season"
+        ).value;
+
+    saveWardrobeItem(
+        editingItem
+    );
+
+    closeEditPopup();
+
+    renderWardrobe();
+
+}
+
+// ===============================
+// RENDER SAVED OUTFITS
+// ===============================
+
+function renderOutfits() {
+
+    // Outfiturile create prin
+    // New Outfit sunt gestionate
+    // de Data SDK.
+
+    // Outfiturile încărcate din SD card
+    // sunt gestionate de IndexedDB.
+
+    // Colecția locală este afișată
+    // prin renderOutfitCollection().
+
+}
+
+   
+</script>
+
+ </body>
+</html>
